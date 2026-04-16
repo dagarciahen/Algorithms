@@ -11,15 +11,13 @@ def greedy_strategy(A,B):
     for a in A:
         best_b = None
         best_value = None
-
         for b in B:
-            value = a*b 
-            if best_value is None or value > best_value:
-                best_value = value
+            value = a*b
+            if best_b = None or alue > best_value:
                 best_b = b
-        pairs.append((a, best_b))
+        pairs.append((a, best_b)
         B.remove(best_b)
-    return pairs
+
 
 def best_strategy(A,B):
     A = A.copy()
