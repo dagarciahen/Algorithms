@@ -1,16 +1,16 @@
 import sys
 
-def Merge(A):
+def MergeSort(A):
     n = len(A)
     if n <= 1:
         return A, 0
     m = n//2
-    B, invB = Merge(A[:m])
-    C, invC = Merge(A[m:])
-    Af, inv = MergeSort(B,C)
+    B, invB = MergeSort(A[:m])
+    C, invC = MergeSort(A[m:])
+    Af, inv = Merge(B,C)
     return Af, invB + invC + inv
 
-def MergeSort(B,C):
+def Merge(B,C):
     D = []
     i = 0 
     j = 0
@@ -31,5 +31,5 @@ def MergeSort(B,C):
 if __name__ == "__main__":
     n = int(input())
     A = list(map(int, sys.stdin.readline().split()))
-    result = Merge(A)
+    result = MergeSort(A)
     print(result)
