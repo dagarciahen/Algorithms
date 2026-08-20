@@ -1,13 +1,14 @@
-
 class LinkedNode:
-    def __init__(self, key, value, prev = None, link = None):
+    def __init__(self, key, value, next, prev):
         self.key = key
-        self.link = link
+        self.value = value
+        self.next = next
+        self.prev = prev
 
         if prev is not None:
-            self.prev.link = self
-        if link is not None:
-            self.link.prev = self
+            prev.next = self
+        if next is not None:
+            next.prev = self
 
 class DoubleLinkedList:
     def __init__(self):
@@ -15,88 +16,91 @@ class DoubleLinkedList:
         self._tail = None
         self._length = 0
 """
-    def addfirst(self, item):
+    def addfirst(self, item, value):
         if len(self._length) == 0:
-            self._head = self._tail = LinkedNode(item)
+            self._head = self._tail = LinkedNode(item, value)
         else:
-            new_node = LinkedNode(item)
-            new_node.link = self._head
-            self._head.prev = new_node
-            self._head = new_node
-        self._length += 1
-
-    def addlast(self, item):
-        if len(self._length) == 0:
-            self._head = self._tail = LinkedNode(item)
-        else:
-            new_node = LinkedNode(item)
-            new_node.prev = self._tail
-            self._tail.link = new_node
-            self._tail = new_node
-        self._length +=1
-""" 
-    def addbetween(self, item, prev, after):
-        node = ListNode(item, before, after)
-        if after == self._head:
+            node = LinkedNode(item, value)
+            node.next = self._head
+            self._head.prev = node
             self._head = node
-        if prev == self._tail:
+    def addlast(self, item, value):
+        if len(self._length) == 0:
+            self._head = self._tail = LinkedNode(item, value)
+        else:
+            node = LinkedNode(item, value)
+            node.prev = self._tail
+            self._tail.next = node
+            self._tail = node
+"""
+    def _addbetween(self, item, value, after, before):
+        node = LinkedNode(item, value, after, before)
+        if before is None:
+            self._head = node
+        if after is None:
             self._tail = node
         self._length += 1
     
-    def addfirst(self, item):
-        return addbetween(self, item, None, self._head):
+    def addfirst(self, item, value):
+        return self._addbetween(item, value, self._head, None)
 
-    def addlast(self, item):
-        return addbetween(self, item, self._tail, None)
+    def addlast(self, item, value):
+        return self._addbetween(item, value, None, self._tail)
 
-    def _remove(self, node):
+    def _removebetween(self, node):
         before = node.prev
-        after = node.link
-        if node is self._head:
-            self._head = after
-        if node is self._tail:
+        after = node.next
+
+        if before is None:
+            self._head = node.next
+        else:
+            before.next = after
+
+            
+        if after is None:
             self._tail = before
         else:
             after.prev = before
+        self._length -= 1
 
     def removefirst(self):
-        return self._remove(self._head)
+        self._removebetween(self._head, None)
+
     def removelast(self):
-        return self._remove(self._tail)
+        self._removebetween(None, self._tail)
+
+    def move_to_front(self, node):
+        self._removebetween(node)
+        return self.addfirst(node.key, node.value)
+    
+
 
 class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.lru = DoubleLinkedList()
         self.cache = {}
+        self.lista = DoubleLinkedList()
 
-    def get(key: int):
-        """
-        retrun the value associeid with the key return -1 if key does ot excists
-        """
-        if key in self.cache:
-            return cache[key]
-        else:
+    def get(self, key):
+        if key not in self.cache:
             return -1
-
-
-
-    def put(key: int, value: int):
-        """
-        add a key and the value to the cache if adding the key result in cache exceeding size evit hte least recetnyly used element if key exists already update value
-        """
-        node = ListedNode(key)
-        if key in self.cache:
-            self.cache[key] = value
-            self.lru.remove(node)
-            self.lru.addfirst(node)
-
         else:
-            if self.lru._length < self.capacity:
-                self.lru.addfirst(node)
-            else:
-                self.lru.removelast()
-        self.cache[key] = value
+            node = self.cache[key]
+            new_node = self.lista.move_to_front(node)
+            self.cache[key] = new_node           
+            return node.value
+    
+    def put(self, key, value):
+        if key not in self.cache:
+            new_node = lru.addfirst(key, value)
+            self.cache[key] = new_node
+            if self.lista._length > self.capacity:
+                self.lista.removelast()
+        else:
+            node = self.cache[key]
+            node.value = value
+            new_node = self.lista.move_to_front(node)
+            self.cache[key] = new_node
 
 
 
