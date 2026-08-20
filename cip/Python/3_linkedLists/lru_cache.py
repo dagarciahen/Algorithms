@@ -1,61 +1,103 @@
-"""
-Design and implement a data structure for the Least Recently Used (LRU) cache that supports the following operations:
 
-LRUCache(capacity: int): Initialize an LRU cache with the specified capacity.
-get(key: int) -> int: Return the value associated with a key. Return -1 if the key doesn't exist.
-put(key: int, value: int) -> None: Add a key and its value to the cache. If adding the key would result in the cache exceeding its size capacity, evict the least recently used element. If the key already exists in the cache, update its value.
-"""
+class LinkedNode:
+    def __init__(self, key, value, prev = None, link = None):
+        self.key = key
+        self.link = link
+
+        if prev is not None:
+            self.prev.link = self
+        if link is not None:
+            self.link.prev = self
 
 class DoubleLinkedList:
-    def __init__(self, key, val):
-        self.next = self.prev = None
-        self.key = key
-        self.val = val
-    
+    def __init__(self):
+        self._head = None
+        self._tail = None
+        self._length = 0
+"""
+    def addfirst(self, item):
+        if len(self._length) == 0:
+            self._head = self._tail = LinkedNode(item)
+        else:
+            new_node = LinkedNode(item)
+            new_node.link = self._head
+            self._head.prev = new_node
+            self._head = new_node
+        self._length += 1
 
+    def addlast(self, item):
+        if len(self._length) == 0:
+            self._head = self._tail = LinkedNode(item)
+        else:
+            new_node = LinkedNode(item)
+            new_node.prev = self._tail
+            self._tail.link = new_node
+            self._tail = new_node
+        self._length +=1
+""" 
+    def addbetween(self, item, prev, after):
+        node = ListNode(item, before, after)
+        if after == self._head:
+            self._head = node
+        if prev == self._tail:
+            self._tail = node
+        self._length += 1
+    
+    def addfirst(self, item):
+        return addbetween(self, item, None, self._head):
+
+    def addlast(self, item):
+        return addbetween(self, item, self._tail, None)
+
+    def _remove(self, node):
+        before = node.prev
+        after = node.link
+        if node is self._head:
+            self._head = after
+        if node is self._tail:
+            self._tail = before
+        else:
+            after.prev = before
+
+    def removefirst(self):
+        return self._remove(self._head)
+    def removelast(self):
+        return self._remove(self._tail)
 
 class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.hashmap = {}
+        self.lru = DoubleLinkedList()
+        self.cache = {}
 
-        self.head = DoubleLinkedList(-1,-1)
-        self.tail = DoubleLinkedList(-1,-1)
-
-        self.head.next = self.tail
-        self.tail.prev = self.head 
-    
-    def remove_node(self, node):
-        node.prev.next = node.next
-        node.next.prev = node.prev
-
-    def add_to_tail(self, node):
-        prev_node = self.tail.prev
-        prev_node.next = node
-        self.tail.prev = node
-        node.next = self.tail
-        node.prev = prev_node
-    def get(self, key:int) -> int:
-        if key not in self.hashmap:
+    def get(key: int):
+        """
+        retrun the value associeid with the key return -1 if key does ot excists
+        """
+        if key in self.cache:
+            return cache[key]
+        else:
             return -1
 
-        self.remove_node(self.hashmap[key])
-        self.add_to_tail(self.hashmap[key])
-
-        
-        return self.hashmap[key].val
-
-    def put(self, key:int, val:int) -> None:
-        if key in self.hashmap:
-            self.remove_node(self.hashmap[key])
-        node = DoubleLinkedList(key, val)
-        self.hashmap[key] = node
-
-        if len(self.hashmap) > capacity:
-            del self.hashmap[self.head.next.key]
-            self.remove_node(self.head.next)
-        self.add_to_tail(node)
 
 
+    def put(key: int, value: int):
+        """
+        add a key and the value to the cache if adding the key result in cache exceeding size evit hte least recetnyly used element if key exists already update value
+        """
+        node = ListedNode(key)
+        if key in self.cache:
+            self.cache[key] = value
+            self.lru.remove(node)
+            self.lru.addfirst(node)
 
-    
+        else:
+            if self.lru._length < self.capacity:
+                self.lru.addfirst(node)
+            else:
+                self.lru.removelast()
+        self.cache[key] = value
+
+
+
+
