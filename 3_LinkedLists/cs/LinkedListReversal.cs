@@ -24,7 +24,19 @@ public class Solution
 {
     public static ListNode ReverseLinkedList(ListNode head)
     {
-        throw new NotImplementedException();
+        ListNode curr = head;
+        ListNode prev = null;
+        
+        while (curr != null)
+        {
+            ListNode next_node = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next_node;
+            
+        }
+        head = prev;
+        return head;
     }
 
     public static void Main(string[] args)

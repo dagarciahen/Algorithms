@@ -30,8 +30,43 @@ public class Solution
 {
     public static bool IsPalindrome(ListNode head)
     {
-        throw new NotImplementedException();
+        ListNode pointA = head;
+        ListNode pointB = head;
+
+        while (pointA is not null && pointA.next is not null)
+        {
+            pointA = pointA.next.next;
+            pointB = pointB.next;
+            
+        }
+        pointA = head;
+       ListNode head2 = pointB;
+       ListNode prev = null;
+       ListNode next_node;
+       ListNode currNode = head2;
+        
+        while (currNode is not null)
+        {
+            next_node = currNode.next;
+            currNode.next = prev;
+            prev = currNode;
+            currNode = next_node;
+        }
+        head2 = prev;
+        pointB = head2;
+        while (pointB != null)
+        {
+            if (pointA.val != pointB.val)
+            {
+                return false;
+            }
+            pointA = pointA.next;
+            pointB = pointB.next;
+            
+        }
+        return true;
     }
+
 
     public static void Main(string[] args)
     {

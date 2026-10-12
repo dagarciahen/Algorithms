@@ -29,7 +29,24 @@ public class Solution
 {
     public static ListNode RemoveKthLastNode(ListNode head, int k)
     {
-        throw new NotImplementedException();
+        ListNode dummy = new();
+        dummy.next = head;
+        ListNode curr = dummy;
+        int c = 0;
+        while (curr.next != null)
+        {
+            curr = curr.next;
+            c +=1;
+            
+        }
+        curr = dummy;
+        for (int i = 0; i < c-k; i++ )
+        {
+            curr = curr.next;
+        }
+        curr.next = curr.next.next;
+        return dummy.next;
+        
     }
 
     public static void Main(string[] args)

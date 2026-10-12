@@ -6,38 +6,69 @@ Output: [[1,0,3,4,0],[0,0,0,0,0],[11,0,13,14,0],[0,0,0,0,0]]
 */
 
 using System;
+using System.Linq;
 
 public class Solution
 {
     public static int[][] SetZeroes(int[][] matrix)
     {
-        HashSet<int> rowWithZeros = new();
-        HashSet<int> colWithZeros = new();
-
-        for (int r = 0; r < matrix.Length; r++)
+        bool firstRowWithZeros = false;
+        int m = matrix.Length;
+        int n = matrix[0].Length;
+        for(int i= 0; i < n; i++)
         {
-            for (int c = 0; c < matrix[0].Length; c++)
+            if (matrix[0][i] == 0)
             {
-                
-    
-            if (matrix[r][c] == 0)
+                firstRowWithZeros = true;
+                break;
+            }
+            
+        }
+        bool firstColWithZeros = false;
+        for (int i = 0; i <m; i++)
+        {
+            if (matrix[i][0] == 0)
             {
-                rowWithZeros.Add(r);
-                colWithZeros.Add(c);
+                firstColWithZeros = true;
+                break;
             }
         }
-    }
-        for (int r = 0; r < matrix.Length; r++)
+        //mark
+        for (int i = 1; i< m; i++)
         {
-            for (int c = 0; c < matrix[0].Length; c++)
+            for (int j = 1; j < n; j++)
             {
-                if (rowWithZeros.Contains(r) || colWithZeros.Contains(c))
+                if (matrix[i][j] == 0)
                 {
-                    matrix[r][c] = 0;
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+
+            }
+        }
+        //ztripping
+        for (int i = 1; i < m; i++)
+        {
+            for (int j = 1; j <n; j++)
+            {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0)
+                {
+                    matrix[i][j] = 0;
                 }
             }
         }
+        if (firstRowWithZeros)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                matrix[0][i] = 0;
+            }
+        }
+        if (firstColWithZeros)
+        Array.ForEach(Enumerable.Range(0, m).ToArray(), i=> matrix[i][0] =0);
+
         return matrix;
+
     }
 
 
@@ -207,3 +238,71 @@ public class Solution
         return true;
     }
 }
+
+/*
+public class Solution
+{
+    public static int[][] SetZeroes(int[][] matrix)
+    {
+        bool firstRowWithZeros = false;
+        int m = matrix.Length;
+        int n = matrix[0].Length;
+        for(int i= 0; i < n; i++)
+        {
+            if (matrix[0][i] == 0)
+            {
+                firstRowWithZeros = true;
+                break;
+            }
+            
+        }
+        bool firstColWithZeros = false;
+        for (int i = 0; i <m; i++)
+        {
+            if (matrix[i][0] == 0)
+            {
+                firstColWithZeros = true;
+                break;
+            }
+        }
+        //mark
+        for (int i = 1; i< m; i++)
+        {
+            for (int j = 1; j < n; j++)
+            {
+                if (matrix[i][j] == 0)
+                {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+
+            }
+        }
+        //ztripping
+        for (int i = 1; i < m; i++)
+        {
+            for (int j = 1; j <n; j++)
+            {
+                if (matrix[i][0] == 0 || matrix[0][j] == 0)
+                {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if (firstRowWithZeros)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                matrix[0][i] = 0;
+            }
+        }
+        if (firstColWithZeros)
+        Array.ForEach(Enumerable.Range(0, m).ToArray(), i=> matrix[i][0] =0);
+
+        return matrix;
+
+    }
+
+
+
+*/
