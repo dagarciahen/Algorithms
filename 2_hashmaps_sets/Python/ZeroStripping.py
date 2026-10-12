@@ -22,7 +22,7 @@ def set_zeroes(matrix):
 
 """
 runtime complexity is o(mxn) as the matrix is fully read it two times
-O(mn) +O(mn) = O(mn)
+O(mn) +O(mn) = O(mxn)
 the space complexity is the sets i am using as helpers, row_with_zeros cna store until m rows,
 col_with_zeros until n cols so M+N o(m+n)
 """
