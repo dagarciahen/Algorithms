@@ -15,16 +15,19 @@ Triplet [1, 2, 4] occurs at indexes (1, 2, 3).
 from collections import defaultdict, Counter
 
 def count_geometric_triplets(nums, r):
-    left_map = defaultdict(int)
-    right_map = Counter(nums)
-    result = 0
+    leftMap = defaultdict(int)
+    rightMap = Counter(nums)
+    count = 0
+
     for num in nums:
-        right_map[num] -= 1
+        leftMap[num] += 1
         if num % r == 0:
-            if num//r in left_map and num*r in right_map:
-                result += left_map[num//r]*right_map[num*r]
-        left_map[num] +=1
-    return result
+            count += leftMap[num//r]*rightMap[num*r]
+        rightMap[num] -=1
+        
+    return count
+            
+
 
 
 def run_test(nums, r, expected, test_name):

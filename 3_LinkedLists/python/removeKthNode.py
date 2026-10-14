@@ -19,7 +19,21 @@ class ListNode:
 
 
 def remove_kth_last_node(head, k):
-    raise NotImplementedError()
+    dummy = ListNode(1)
+    dummy.next = head
+    lead = dummy
+    trailer = dummy
+    for _ in range(k+1):
+        lead = lead.next
+    while lead:
+        lead = lead.next
+        trailer = trailer.next
+    trailer.next = trailer.next.next
+
+    return dummy.next
+
+
+
 
 
 def build_list(values):

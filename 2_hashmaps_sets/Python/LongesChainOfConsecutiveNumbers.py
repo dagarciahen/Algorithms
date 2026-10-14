@@ -10,7 +10,20 @@ Explanation: The longest chain of consecutive numbers is 5, 6, 7, 8.
 
 
 def longest_consecutive_chain(nums):
-    raise NotImplementedError()
+    if not nums:
+        return 0
+    setNums = set(nums)
+    longest_chain = 0
+    for num in nums:
+        if num -1 not in setNums:
+            curr_num = num
+            curr_chain = 1
+        while (curr_num +1) in setNums:
+            curr_chain +=1
+            curr_num +=1
+        longest_chain = max(curr_chain, longest_chain)
+    return longest_chain
+    
 
 
 def run_test(nums, expected, test_name):
@@ -34,3 +47,27 @@ if __name__ == "__main__":
     run_test([0, 3, 7, 2, 5, 8, 4, 6, 0, 1], 9, "Test 3")
     run_test([10, 30, 20], 1, "Test 4")
     run_test([], 0, "Test 5")
+
+
+"""
+runtime complexity o(n) space complexity o(n) because set 
+"""
+
+"""
+def longest_consecutive_chain(nums):
+    if not nums:
+        return 0
+    setNums = set(nums)
+    longest_chain = 0
+    for num in setNums:
+        if num -1 not in setNums:
+            current_num = num
+            current_chain = 1
+
+        while (current_num +1) in setNums:
+            current_num += 1
+            current_chain += 1
+        longest_chain = max(longest_chain, current_chain)
+    return longest_chain
+        
+"""

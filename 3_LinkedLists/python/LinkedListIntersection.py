@@ -20,7 +20,12 @@ class ListNode:
 
 
 def get_intersection_node(head_a, head_b):
-    raise NotImplementedError()
+    point_a = head_a
+    point_b = head_b
+    while point_a != point_b:
+        point_a = point_a.next if point_a.next is not None else head_b
+        point_b = point_b.next if point_b.next is not None else head_a
+    return point_a is not None
 
 
 def build_nodes(values):

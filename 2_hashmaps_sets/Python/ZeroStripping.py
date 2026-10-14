@@ -7,18 +7,36 @@ Output: [[1,0,3,4,0],[0,0,0,0,0],[11,0,13,14,0],[0,0,0,0,0]]
 
 
 def set_zeroes(matrix):
-    row_with_zeros = set()
-    col_with_zeros = set()
-    for i in range(len(matrix)):
-        for j in range(len(matrix[0])):
-            if matrix[i][j] == 0:
-                row_with_zeros.add(i); col_with_zeros.add(j)
-    i = 0; j = 0
-    for i in range(len(matrix)):
-        for j in range(len(matrix[0])):
-            if i in row_with_zeros or j in col_with_zeros:
-                matrix[i][j] = 0
+    first_col_with_zeros = False
+    for r in range(len(matrix)):
+        if matrix[r][0] == 0:
+            first_col_with_zeros = True
+    first_row_with_zeros = False 
+    for c in range(len(matrix[0])):
+        if matrix[0][c] == 0:
+            first_row_with_zeros = True
+
+    for r in range(1, len(matrix)):
+        for c in range(1, len(matrix[0])):
+            if matrix[r][c] == 0:
+                matrix[0][c] = 0
+                matrix[r][0] = 0
+
+    for r in range(1, len(matrix)):
+        for c in range(1, len(matrix[0])):
+            if matrix[r][0] == 0 or matrix[0][c] == 0:
+                matrix[r][c] = 0
+
+    for r in range(len(matrix)):
+        if first_col_with_zeros:
+            matrix[r][0] = 0
+
+    for c in range(len(matrix[0])):
+        if first_col_with_zeros:
+            matrix[c][0] = 0
     return matrix
+        
+
 
 """
 runtime complexity is o(mxn) as the matrix is fully read it two times

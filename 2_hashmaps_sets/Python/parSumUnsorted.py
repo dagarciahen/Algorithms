@@ -11,11 +11,13 @@ Output: [0, 2]
 def pair_sum_unsorted(nums, target):
     hashMap = {}
     for i in range(len(nums)):
-        complementary = target - nums[i]
-        if complementary in hashMap and hashMap[complementary] != i:
-            return [i, hashMap[complementary]]
+        num = nums[i]
+        complement = target - num
+        if complement in hashMap and hashMap[complement] != i:
+            return [i, hashMap[complement]]
         hashMap[nums[i]] = i
     return []
+   
 
 def are_equal(actual, nums, target):
     if len(actual) == 0: return True

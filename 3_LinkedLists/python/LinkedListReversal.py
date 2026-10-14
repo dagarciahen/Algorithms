@@ -14,7 +14,17 @@ class ListNode:
 
 
 def reverse_linked_list(head):
-    raise NotImplementedError()
+    curr = head
+    prev = None
+    while curr:
+        next_node = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next_node
+    head = prev
+    return head
+
+
 
 
 def build_list(values):
