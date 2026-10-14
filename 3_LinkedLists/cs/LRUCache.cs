@@ -28,22 +28,184 @@ All keys and values are positive integers.
 */
 
 using System;
+using System.Collections.Generic;
 
+public class LinkNode
+{
+    public int _key;
+    public int _value;
+    public LinkNode _prev;
+    public LinkNode _next;
+    public LinkNode(int key, int value, LinkNode prev, LinkNode next)
+    {
+        _key = key;
+        _value = value;
+        _prev = prev;
+        _next = next;
+
+        if (prev != null)
+        {
+            prev._next = this;
+        }
+        if (next != null)
+        {
+            next._prev = this;
+        }
+        
+        
+    }
+    
+}
+public class DoubleLinkedList
+{
+    private LinkNode _head;
+    private LinkNode _tail;
+    public int Length {get; private set;}
+    
+    public DoubleLinkedList(LinkNode head = null, LinkNode tail = null)
+    {
+        _head = head;
+        _tail = tail;
+    }
+    
+    public LinkNode AddFirst(int key, int value)
+    {
+        return _addBetween(key, value, null, _head);
+    }
+    
+    public LinkNode _addBetween(int key, int value, LinkNode before, LinkNode after)
+    {
+        LinkNode node = new(key, value, before, after);
+        if (before is null)
+        {
+            _head = node;
+        }
+        else if (after is null)
+        {
+            _tail = node;
+        }
+        Length++;
+        return node;
+    }
+    public LinkNode AddLast(int key, int value)
+    {
+        return _addBetween(key, value, _tail, null);
+    }
+    public LinkNode RemoveFirst()
+    {
+        return _removeBetween(_head);
+    }
+    public LinkNode RemoveLast()
+    {
+        return _removeBetween(_tail);
+    }
+    
+    public LinkNode _removeBetween(LinkNode node)
+    {
+        LinkNode before = node._prev;
+        LinkNode after = node._next;
+        if (before != null)
+        {
+            before._next = after;
+        } else
+        {
+            _head = after;
+        }
+        if (after != null)
+        {
+            after._prev = before;
+        }
+        else
+        {
+            _tail = before;
+        }
+        Length--;
+        
+        return node;
+
+    }
+    public void Movetofirst(LinkNode node)
+    {
+        LinkNode before = node._prev;
+        LinkNode after = node._prev;
+
+        if (before is null)
+        {
+            return;
+        } else
+        {
+            before._next = after;
+        }
+        if (after is null)
+        {
+            _tail = before;
+            
+        }
+        else
+        {
+            after._prev = before;
+        }
+        node._next = _head;
+        _head._prev = node;
+        node._prev = null;
+        _head = node;
+        
+    }
+
+    
+}
 public class LRUCache
 {
+    private Dictionary<int, LinkNode> _valuesToNode = new();
+    private DoubleLinkedList Lru = new DoubleLinkedList();
+    private int _length;
+    private int _capacity;
     public LRUCache(int capacity)
     {
-        throw new NotImplementedException();
+        _capacity = capacity;
+        _length = 0;
+        
     }
 
     public int Get(int key)
     {
-        throw new NotImplementedException();
+        if (!_valuesToNode.ContainsKey(key))
+        {
+            return -1;
+        }
+        else
+        {
+            LinkNode node = _valuesToNode[key];
+            Lru.Movetofirst(node);
+            return node._value;
+        }
     }
 
     public void Put(int key, int value)
     {
-        throw new NotImplementedException();
+        if (_length < _capacity)
+        {
+            if (!_valuesToNode.ContainsKey(key))
+            {
+                LinkNode new_node = Lru.AddFirst(key, value);
+                _valuesToNode[key] = new_node;
+                _length++;
+                
+            } else
+            {
+                LinkNode node = _valuesToNode[key];
+                node._value = value;
+                Lru.Movetofirst(node);
+                _valuesToNode[key] = node;
+            }
+        } else
+            {
+                LinkNode old_node = Lru.RemoveLast();
+                _valuesToNode.Remove(old_node._key);
+                
+                LinkNode new_node = Lru.AddFirst(key, value);
+                _valuesToNode[key] = new_node;
+            }
     }
 }
 

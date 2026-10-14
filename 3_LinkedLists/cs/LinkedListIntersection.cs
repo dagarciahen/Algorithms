@@ -39,8 +39,18 @@ public class Solution
 {
     public static ListNode GetIntersectionNode(ListNode headA, ListNode headB)
     {
-        throw new NotImplementedException();
-    }
+        ListNode pointA = headA;
+        ListNode pointB = headB;
+
+        while (pointA != pointB)
+        {
+            pointA = pointA.next != null ? pointA.next : headB;
+            pointB = pointB.next != null ? pointB.next : headA;
+
+
+        }
+        return pointA;
+     }
 
     public static void Main(string[] args)
     {
