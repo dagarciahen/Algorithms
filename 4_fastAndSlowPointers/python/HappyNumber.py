@@ -16,7 +16,21 @@ Explanation:
 
 
 def is_happy_number(n):
-    raise NotImplementedError()
+    fast = slow = n
+    while True:
+        fast = get_next_digit(get_next_digit(fast))
+        slow = get_next_digit(slow)
+        if fast == 1: return True
+        if fast == slow: return False
+
+def get_next_digit(x):
+    num = 0
+    while x > 0:
+        digit = x %10
+        x = x //10
+        num += digit**2
+    return num
+
 
 
 def run_test(n, expected, test_name):

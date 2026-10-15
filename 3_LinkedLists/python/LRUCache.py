@@ -11,17 +11,106 @@ put(key, value): Add or update a key. If the cache exceeds capacity, evict the l
 Constraints:
 All keys and values are positive integers.
 """
+class ListNode:
+    def __init__(self, key, value, prev, next):
+        self.key = key
+        self.value = value
+        self.prev = prev
+ t       self.next = next
+
+        if next is not None:
+            next.prev = self
+        if prev is not None:
+            prev.next = self
+
+class DoubleLinkedList:
+    def __init__(self):
+        self._head = None
+        self._tail = None
+        self._length = 0
+
+    def addfirst(self, key, value):
+        return self._addbetween(key, value, None, self._head)
+    def addlast(self,key,value):
+        return self._addbetween(key, value, self._tail, None)
+    def _addbetween(self, key, value, before, after):
+        node = ListNode(key, value, before, after)
+        if before == None:
+            self._head = node
+        if after == None:
+            self._tail = node
+        self._length += 1
+        return node
+    
+    def removefirst(self):
+        return self._removebetween(self._head)
+    def removelast(self):
+        return self._removebetween(self._tail)
+    def _removebetween(self, node):
+        before = node.prev
+        after = node.next
+        if before != None:
+            before.next = after
+        else:
+            self._head = after
+        if after != None:
+            after.prev = before
+        else:
+            self._tail = before
+        self._length -=1
+        return node
+
+    def movetofirst(self, node):
+        before = node.prev
+        after = node.next
+        if before is None:
+            return
+        else:
+            before.next = after
+        if after is None:
+            self._tail = before
+        else:
+            after.prev = before
+        node.next = self._head
+        self._head.prev = node
+        node.prev = None
+        self._head = node
+
 
 
 class LRUCache:
     def __init__(self, capacity):
-        raise NotImplementedError()
+        self.lrucache = DoubleLinkedList()
+        self.capacity = capacity
+        self.hashNodes = {}
+        
 
     def get(self, key):
-        raise NotImplementedError()
+        if (key not in self.hashNodes):
+            return -1
+        node = self.hashNodes[key]
+        self.lrucache.movetofirst(node)
+        return node.value
+
+        
 
     def put(self, key, value):
-        raise NotImplementedError()
+        if key not in self.hashNodes:
+            if self.capacity > self.lrucache._length:
+                node = self.lrucache.addfirst(key,value)
+                self.hashNodes[key] = node
+            else:
+                old_node = self.lrucache.removelast()
+                
+                del self.hashNodes[old_node.key]
+                new_node = self.lrucache.addfirst(key, value)
+                self.hashNodes[key] = new_node
+        else:
+            node = self.hashNodes[key]
+            node.value = value
+            self.lrucache.movetofirst(node)
+
+
 
 
 def are_equal(left, right):

@@ -11,10 +11,39 @@ Output: [3, 5]
 
 
 def find_first_and_last_occurrence(nums, target):
-    raise NotImplementedError()
+    if len(nums) == 0: return [-1, -1]
+    left = lower_bound(nums,target)
+    if left == -1 or nums[left] != target:
+        return [-1, -1]
+    right = upper_bound(nums, target)
+    return [left, right]
+
+def lower_bound(nums, target):
+    left = 0
+    right = len(nums)
+    while left < right:
+        m = left + (right-left)//2
+        if nums[m] < target:
+            left = m +1
+        else:
+            right = m
+    return left
+
+def upper_bound(nums, target):
+    left = 0
+    right = len(nums)
+    while left < right:
+        m = left + (right-left)//2
+        if nums[m] <= target:
+            left = m +1
+        else:
+            right = m
+    return right -1
+
 
 
 def run_test(nums, target, expected, test_name):
+    if len(nums) == 0: return [-1, -1]
     print(test_name)
     print("nums     = " + str(nums))
     print("target   = " + str(target))

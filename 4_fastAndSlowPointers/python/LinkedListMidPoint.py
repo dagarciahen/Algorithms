@@ -21,7 +21,12 @@ class ListNode:
 
 
 def find_midpoint(head):
-    raise NotImplementedError()
+    fast = head
+    slow = head
+    while fast and fast.next:
+        fast = fast.next.next
+        slow = slow.next
+    return slow
 
 
 def build_list(values):

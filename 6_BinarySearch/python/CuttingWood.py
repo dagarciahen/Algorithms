@@ -19,8 +19,14 @@ Output: 3
 
 
 def cutting_wood(heights, k):
-    raise NotImplementedError()
 
+
+def cut(c, k, heights):
+    wood = 0
+    for h in heights:
+        if h >= c:
+            wood += h -c
+    return wood >= k
 
 def run_test(heights, k, expected, test_name):
     print(test_name)
@@ -43,4 +49,4 @@ if __name__ == "__main__":
     run_test([5, 7, 9], 4, 5, "Test 2")
     run_test([10, 10, 10], 6, 8, "Test 3")
     run_test([1, 2, 3, 4], 0, 4, "Test 4")
-    run_test([4, 12, 7, 10], 11, 5, "Test 5")
+    run_test([4, 12, 7, 10], 11, 6, "Test 5")

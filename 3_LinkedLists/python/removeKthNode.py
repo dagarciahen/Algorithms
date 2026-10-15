@@ -19,17 +19,15 @@ class ListNode:
 
 
 def remove_kth_last_node(head, k):
-    dummy = ListNode(1)
+    dummy = ListNode(0)
     dummy.next = head
-    lead = dummy
-    trailer = dummy
+    lead = trailer = dummy
     for _ in range(k+1):
         lead = lead.next
     while lead:
         lead = lead.next
         trailer = trailer.next
     trailer.next = trailer.next.next
-
     return dummy.next
 
 

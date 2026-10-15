@@ -18,7 +18,15 @@ Output: 4
 
 
 def find_insertion_index(nums, target):
-    raise NotImplementedError()
+    i = 0
+    j = len(nums)
+    while i < j:
+        m = i + (j-i)//2
+        if nums[m] < target:
+            i = m+1
+        else:
+            j = m
+    return i
 
 
 def run_test(nums, target, expected, test_name):

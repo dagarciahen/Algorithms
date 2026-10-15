@@ -21,8 +21,12 @@ class ListNode:
 
 
 def has_cycle(head):
-    raise NotImplementedError()
-
+    slow = fast = head
+    while fast and fast.next:
+        fast = fast.next.next
+        slow = slow.next
+        if fast == slow: return True
+    return False
 
 def build_list(values, cycle_index):
     if not values:

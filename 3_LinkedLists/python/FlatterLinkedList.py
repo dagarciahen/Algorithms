@@ -28,7 +28,25 @@ class ListNode:
 
 
 def flatten_linked_list(head):
-    raise NotImplementedError()
+    curr = head
+    later = head
+    while later.next:
+        later = later.next
+
+    while curr:
+        if curr.child is not None:
+            later.next = curr.child
+            curr.child = None
+            while later.next:
+                later = later.next
+        curr = curr.next
+
+    return head
+
+
+
+
+    
 
 
 def build_test_1():
