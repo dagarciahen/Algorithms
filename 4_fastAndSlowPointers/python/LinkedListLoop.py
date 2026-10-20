@@ -25,8 +25,13 @@ def has_cycle(head):
     while fast and fast.next:
         fast = fast.next.next
         slow = slow.next
-        if fast == slow: return True
+
+        if slow == fast: return False
     return False
+        
+
+
+
 
 def build_list(values, cycle_index):
     if not values:

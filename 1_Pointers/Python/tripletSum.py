@@ -16,6 +16,23 @@ def triplet_sum(nums: List[int]) -> List[List[int]]:
     nums.sort()
     triplets = []
     for i in range(len(nums)):
+        #a+b+c = 0 -> -a = b+c
+        if nums[i] > 0: continue
+        if i > 0 and nums[i] == nums[i-1]:
+            continue
+        target = -nums[i]
+        j = i +1
+        k = len(nums)-1
+        while j < k:
+            val = nums[j] + nums[k]
+            if val < target:
+                j += 1
+            elif val > target:
+                k -= 1
+            else:
+                triplets.append([nums[i], nums[j], nums[k]])
+    nums.sort() triplets = []
+    for i in range(len(nums)):
         if i > 0 and nums[i] == nums[i-1]:
             continue
         if nums[i] > 0:
@@ -37,7 +54,15 @@ def triplet_sum(nums: List[int]) -> List[List[int]]:
                 if j < k and nums[j] == nums[j-1]:
                     j +=1
     return triplets
-            
+                j +=1
+                k -=1
+                if j < k and nums[j] == nums[j-1]:
+                    j +=1
+    return triplets
+
+
+
+
         
     
 

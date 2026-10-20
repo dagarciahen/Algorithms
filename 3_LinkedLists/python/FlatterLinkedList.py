@@ -29,20 +29,20 @@ class ListNode:
 
 def flatten_linked_list(head):
     curr = head
-    later = head
-    while later.next:
-        later = later.next
-
+    final = head
+    while final.next:
+        final = final.next
+    
     while curr:
-        if curr.child is not None:
-            later.next = curr.child
+        if curr.child != None:
+            final.next = curr.child
             curr.child = None
-            while later.next:
-                later = later.next
         curr = curr.next
 
-    return head
+        while final.next:
+            final = final.next
 
+    return head
 
 
 

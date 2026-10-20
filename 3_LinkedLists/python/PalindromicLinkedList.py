@@ -20,28 +20,37 @@ class ListNode:
 
 
 def is_palindrome(head):
-    pointera = head
-    pointerb = head
-    while pointera and pointera.next:
-        pointera = pointera.next.next
-        pointerb = pointerb.next
-    head2 = pointerb
-    curr = head2
-    prev = None
+    pointer_a = pointer_b = head
+
+    while pointer_a and pointer_a.next:
+        pointer_a = pointer_a.next.next
+        pointer_b = pointer_b.next
+
+    mid = pointer_b
+
+    curr = mid
+    prev = mid
+
     while curr:
         next_node = curr.next
         curr.next = prev
         prev = curr
         curr = next_node
-    pointera = head
-    pointerb = head2
-    while pointerb.next:
-        if pointera.val != pointerb.val: return False
-        pointera = pointera.next
-        pointerb = pointerb.next
+
+    head2 = prev
+
+    pointer_a = head
+    pointer_b = head2
+
+    while pointer_b != pointer_a:
+        pointer_a = pointer_a.next
+        pointer_b = pointer_b.next
+        if pointer_a.val != pointer_b.val:
+            return False
+        
     return True
 
-    
+
 
 
 def build_list(values):

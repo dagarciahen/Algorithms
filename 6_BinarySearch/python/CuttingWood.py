@@ -19,13 +19,22 @@ Output: 3
 
 
 def cutting_wood(heights, k):
+    left = 0
+    right = max(heights)
 
+    while left <= right:
+        m = left + (right - left)//2
+        if cut(m, k, heights):
+            left = m + 1
+        else:
+            right = m -1
+    return right -1
 
-def cut(c, k, heights):
+def cut(m, k, heights):
     wood = 0
     for h in heights:
-        if h >= c:
-            wood += h -c
+        if h >= m:
+            wood += h -m
     return wood >= k
 
 def run_test(heights, k, expected, test_name):
