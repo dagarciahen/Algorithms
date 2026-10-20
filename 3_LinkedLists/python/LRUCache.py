@@ -11,17 +11,19 @@ put(key, value): Add or update a key. If the cache exceeds capacity, evict the l
 Constraints:
 All keys and values are positive integers.
 """
+
+
 class ListNode:
     def __init__(self, key, value, prev, next):
         self.key = key
         self.value = value
         self.prev = prev
- t       self.next = next
+        self.next = next
 
-        if next is not None:
-            next.prev = self
         if prev is not None:
             prev.next = self
+        if next is not None:
+            next.prev = self
 
 class DoubleLinkedList:
     def __init__(self):
@@ -31,13 +33,14 @@ class DoubleLinkedList:
 
     def addfirst(self, key, value):
         return self._addbetween(key, value, None, self._head)
-    def addlast(self,key,value):
+    def addlast(self, key, value):
         return self._addbetween(key, value, self._tail, None)
+
     def _addbetween(self, key, value, before, after):
         node = ListNode(key, value, before, after)
-        if before == None:
+        if before is None:
             self._head = node
-        if after == None:
+        if after is None:
             self._tail = node
         self._length += 1
         return node
@@ -46,23 +49,26 @@ class DoubleLinkedList:
         return self._removebetween(self._head)
     def removelast(self):
         return self._removebetween(self._tail)
+
     def _removebetween(self, node):
         before = node.prev
         after = node.next
-        if before != None:
-            before.next = after
-        else:
+        
+        if before is None:
             self._head = after
-        if after != None:
-            after.prev = before
         else:
+            before.next = after
+        if after is None:
             self._tail = before
-        self._length -=1
+        else:
+            after.prev = before
+        self._length +=1
         return node
 
     def movetofirst(self, node):
         before = node.prev
         after = node.next
+
         if before is None:
             return
         else:
@@ -71,46 +77,40 @@ class DoubleLinkedList:
             self._tail = before
         else:
             after.prev = before
+
         node.next = self._head
         self._head.prev = node
         node.prev = None
         self._head = node
-
-
+        return node
 
 class LRUCache:
     def __init__(self, capacity):
-        self.lrucache = DoubleLinkedList()
         self.capacity = capacity
+        self.lrucache = DoubleLinkedList()
         self.hashNodes = {}
-        
 
     def get(self, key):
-        if (key not in self.hashNodes):
+        if key not in self.hashNodes:
             return -1
         node = self.hashNodes[key]
         self.lrucache.movetofirst(node)
         return node.value
 
-        
-
     def put(self, key, value):
         if key not in self.hashNodes:
             if self.capacity > self.lrucache._length:
-                node = self.lrucache.addfirst(key,value)
+                node = self.lrucache.addfirst(key, value)
                 self.hashNodes[key] = node
             else:
                 old_node = self.lrucache.removelast()
-                
                 del self.hashNodes[old_node.key]
-                new_node = self.lrucache.addfirst(key, value)
-                self.hashNodes[key] = new_node
+                node = self.lrucache.addfirst(key, value)
+                self.hashNodes[key] = node
         else:
             node = self.hashNodes[key]
             node.value = value
             self.lrucache.movetofirst(node)
-
-
 
 
 def are_equal(left, right):

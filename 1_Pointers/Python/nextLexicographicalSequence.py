@@ -11,22 +11,24 @@ Output: "abdc"
 
 def next_lexicographical_sequence(s: str) -> str:
     wordsList = list(s)
-    right = len(s)-1
-    while right > 0 and wordsList[right] <= wordsList[right-1]:
-        right -= 1
-    if right == 0:
+    j =  len(s)-1
+    while j > 0 and wordsList[j] <= wordsList[j-1]:
+        j -=1
+    if j == 0:
         return "".join(reversed(wordsList))
-    pivot = right-1
-    right = len(s)-1
-    while wordsList[pivot] >= wordsList[right]:
-        right -= 1
-    wordsList[pivot], wordsList[right] = wordsList[right], wordsList[pivot]
+    pivot = j -1
+    j = len(s)-1
+    while wordsList[pivot] >= wordsList[j]:
+        j -=1
+    wordsList[pivot], wordsList[j] = wordsList[j], wordsList[pivot]
+    
     wordsList[pivot+1:] = reversed(wordsList[pivot+1:])
+
     return "".join(wordsList)
 
 
-    
 
+    
 
 def run_test(input_value: str, expected: str, test_name: str) -> None:
     print(test_name)

@@ -14,6 +14,7 @@ def shift_zeros_to_end(nums: List[int]) -> None:
             nums[left], nums[right] = nums[right], nums[left]
             left +=1
 
+
 def run_test(nums: List[int], expected: List[int], test_name: str) -> None:
     print(test_name)
     print("nums     = " + str(nums))

@@ -16,7 +16,20 @@ we can achieve is "ccccc", obtained by replacing 'b' and 'd' with 'c'.
 
 
 def longest_uniform_substring_after_replacements(s, k):
-    raise NotImplementedError()
+    freqs = {}
+    max_len = highest_freq = 0
+    right = left = 0
+    while right < len(s):
+        freqs[s[right]] = freqs.get(s[right], 0)+1
+        highest_freq = max(freqs[s[right]], highest_freq)
+        nums_char_to_replace = right-left+1 - highest_freq
+        if nums_char_to_replace > k:
+            freqs[s[left]] -= 1
+            left +=1
+        max_len = right-left +1
+        right +=1
+    return max_len
+
 
 
 def run_test(s, k, expected, test_name):

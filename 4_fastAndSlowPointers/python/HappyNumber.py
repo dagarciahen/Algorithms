@@ -16,21 +16,25 @@ Explanation:
 
 
 def is_happy_number(n):
-    fast = slow = n
+    slow = fast = n
+
     while True:
-        fast = get_next_digit(get_next_digit(fast))
-        slow = get_next_digit(slow)
         if fast == 1: return True
+        fast = next_number(next_number(fast))
+        slow = next_number(slow)
         if fast == slow: return False
 
-def get_next_digit(x):
-    num = 0
-    while x > 0:
-        digit = x %10
-        x = x //10
-        num += digit**2
-    return num
+    return True
 
+
+
+def next_number(x):
+    suma = 0
+    while x > 0:
+        digit = x%10
+        x = x//10
+        suma += digit**2
+    return suma
 
 
 def run_test(n, expected, test_name):

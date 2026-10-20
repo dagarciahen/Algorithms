@@ -10,20 +10,29 @@ Explanation: The longest chain of consecutive numbers is 5, 6, 7, 8.
 
 
 def longest_consecutive_chain(nums):
-    if not nums:
-        return 0
-    setNums = set(nums)
+    setnums = set(nums)
     longest_chain = 0
+    curr_num = 0
+    curr_chain = 0
     for num in nums:
-        if num -1 not in setNums:
+        if num -1 not in setnums:
             curr_num = num
             curr_chain = 1
-        while (curr_num +1) in setNums:
-            curr_chain +=1
-            curr_num +=1
-        longest_chain = max(curr_chain, longest_chain)
+            while curr_num +1 in setnums:
+                curr_chain +=1
+                curr_num +=1
+        longest_chain = max(longest_chain, curr_chain)
     return longest_chain
-    
+
+"""
+The runntime complexity is n for the for loop then the inner loop is executed only if the curr_num is 
+the start of the chain so each chain is iterated only once o(n) for the for and o(n) for the hwile is o(n) n+n
+and the space complexity is o(n) as would be the required space to convert the list to hashset
+
+"""
+
+
+
 
 
 def run_test(nums, expected, test_name):

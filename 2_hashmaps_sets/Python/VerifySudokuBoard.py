@@ -20,17 +20,21 @@ def verify_sudoku_board(board):
     for r in range(9):
         for c in range(9):
             num = board[r][c]
-            if num == 0:
-                continue
+            if num == 0: continue
             if num in row_sets[r] or num in col_sets[c] or num in subgrid_sets[r//3][c//3]:
                 return False
             row_sets[r].add(num)
-            col_sets[c].add(num);
+            col_sets[c].add(num)
             subgrid_sets[r//3][c//3].add(num)
 
     return True
-
             
+"""
+runtime complexity is 9x9 is o(1) space complexity is o(1) 
+in general in terms of n is o(n**2) as we iterate through each cell once in the board one and perfom contanst hash set operations
+The time complexity in terms of n is o(n**") due to the row,col and subgird sets each array contains n hash sets and each hasset grows a size of n
+
+"""
 
 
 
