@@ -1,4 +1,4 @@
-from xxx import BalancedBST, BalancedBSTNode
+from bst_implementation import BalancedBST, BalancedBSTNode
 
 class WBTreeNode(BalancedBSTNode):
     def newnode(self, key, value):

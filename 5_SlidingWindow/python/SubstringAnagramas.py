@@ -17,7 +17,27 @@ There is an anagram of t starting at index 1 and another starting at index 2.
 
 
 def count_substring_anagrams(s, t):
-    raise NotImplementedError()
+    expected_freq = [0]*26
+    window_freq = [0]*26
+    for c in t:
+        idx = ord(c)-ord('a')
+        expected_freq[idx] +=1
+    left = 0
+    right = 0
+    count = 0
+    while right < len(s):
+        window_freq[ord(s[right]) - ord('a')] +=1
+        
+        if right-left+1 == len(t):
+            if expected_freq == window_freq:
+                count +=1
+            window_freq[ord(s[left]) - ord('a')] -= 1
+            left +=1
+        right +=1
+    return count
+        
+            
+                 
 
 
 def run_test(s, t, expected, test_name):

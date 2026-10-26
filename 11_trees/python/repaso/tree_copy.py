@@ -27,7 +27,7 @@ class Tree:
         else:
             return 1 + max(child.height() for child in self.children)
 
-    def preorder(self.data):
+    def preorder(self):
         yield self.data
         for child in self.children:
             for data in self.data:
@@ -44,4 +44,11 @@ class Tree:
         stack = [(node, childiter)]
         while stack:
             try:
-                stack.append((next(stack[-1][1]
+                stack.append((next(stack[-1][1]), next(iter(stack[-1][-1]))))
+            except StopIteration:
+                yield stack[1][0]
+                stack.pop()
+
+    def postorder(self):
+        return(node.data for node in self._postorder())
+

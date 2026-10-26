@@ -37,11 +37,7 @@ class BSTMapping(Mapping):
     def __delitem__(self, key):
         self.remove(key)
         
-        
-
-
-
-
+    
 
 
 class BSTNode:
@@ -56,7 +52,7 @@ class BSTNode:
         return self._length
     
     def __str__(self):
-        return str(self.key) + ": " str(self.value)
+        return str(self.key) + ": " +str(self.value)
 
     def __iter__(self):
         if self.left:
@@ -121,7 +117,7 @@ class BSTNode:
         return self.right.maxnode() if self.right else self
 
 
-    def remove(self key):
+    def remove(self, key):
         if self.key == key:
             if self.left is None: return self.right
             if self.right is None: return self.left

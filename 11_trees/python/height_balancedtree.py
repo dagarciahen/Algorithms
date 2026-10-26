@@ -1,4 +1,4 @@
-from xxx import BalancedBST, BalancedBSTNode
+from bst_implementation import BalancedBST, BalancedBSTNode
 
 def height(node):
     return node.height if node else -1

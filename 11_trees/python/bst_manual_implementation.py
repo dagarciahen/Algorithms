@@ -53,7 +53,7 @@ class BSTNode:
         return self._length
 
     def __str__(self):
-        return str(self.key) + " : " str(self.value)
+        return str(self.key) + " : " +str(self.value)
 
     def get(self, key):
         if key == self.key:
@@ -81,8 +81,8 @@ class BSTNode:
         self._updatelength()
 
     def _updatelength(self):
-        len_left = len(self.left) is self.left else 0
-        len_right = len(self.right) is self.right else 0
+        len_left = len(self.left) if self.left else 0
+        len_right = len(self.right) if self.right else 0
         self._length = 1 + len_left + len_right
 
     def floor(self, key):
@@ -94,7 +94,7 @@ class BSTNode:
             else:
                 return None
         elif key > self.key:
-            if self.right is Not None:
+            if self.right is not None:
                 floor = self.right.floor(key)
                 return floor if floor is not None else self
             else:
