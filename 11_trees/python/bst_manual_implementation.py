@@ -50,7 +50,7 @@ class BSTNode:
         
 
     def __len__(self):
-        return len(self._length)
+        return self._length
 
     def __str__(self):
         return str(self.key) + " : " str(self.value)
@@ -59,9 +59,9 @@ class BSTNode:
         if key == self.key:
             return self.value
         elif key < self.key and self.left:
-            return self.get(key)
+            return self.left.get(key)
         elif key > self.key and self.right:
-            return self.get(key)
+            return self.right.get(key)
         else:
             raise KeyError
 
@@ -95,9 +95,10 @@ class BSTNode:
                 return None
         elif key > self.key:
             if self.right is Not None:
-                return self.right.floor(key)
+                floor = self.right.floor(key)
+                return floor if floor is not None else self
             else:
-                return None
+                return self
         else:
             return self
 

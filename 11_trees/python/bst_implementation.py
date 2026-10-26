@@ -1,20 +1,8 @@
 import Mapping
 
-
 class BSTMapping(Mapping):
-    def __init__(self, key, value):
+    def __init__(self):
         self._root = None
-
-    def get(self, key):
-        if self._root:
-            return self._root.get(key).value
-        raise KeyError
-
-    def put(self, key, value):
-        if self._root:
-            self.root = self._root.put(key, value)
-        else:
-            self._root = BSTNode(key, value)
 
     def __len__(self):
         return len(self._root) if self._root is not None else 0
@@ -23,21 +11,35 @@ class BSTMapping(Mapping):
         if self._root:
             yield from self._root
 
-    def floor(self, key):
+    def get(self,key):
         if self._root:
-            floornode = self._root.floor(key)
+            return self._root.get(key).value
+        raise KeyError
+
+    def put(self, key, value):
+        if self._root:
+            return self._root(key, value)
+        else:
+            self._root = BSTNode(self, key)
+    
+    def floor(self):
+        if self._root:
+            floor = self._root.floor()
             if floornode is not None:
                 return floornode.key, floornode.value
         return None, None
 
-    def remove(self, key):
+    def remove(self,key):
         if self._root:
-            self._root = self._root.remove(key)
-        else:
-            raise KeyError
+            return self._root.remove(key)
+        raise KeyError
 
     def __delitem__(self, key):
         self.remove(key)
+        
+        
+
+
 
 
 
@@ -52,59 +54,65 @@ class BSTNode:
 
     def __len__(self):
         return self._length
+    
+    def __str__(self):
+        return str(self.key) + ": " str(self.value)
+
+    def __iter__(self):
+        if self.left:
+            yield from self.left
+        yield left
+        if self.right:
+            yield from self.right
 
     def get(self, key):
-        if key == self.key:
-            return self
+        if self.key == key:
+            return self.value
         elif key < self.key and self.left:
             return self.left.get(key)
         elif key > self.key and self.right:
             return self.right.get(key)
         else:
             raise KeyError
-
+    
     def put(self, key, value):
         if key == self.key:
             self.value = value
         elif key < self.key:
             if self.left:
-                self.left.put(key, value)
+                return self.left.put(key, value)
             else:
                 self.left = BSTNode(key, value)
         elif key > self.key:
             if self.right:
-                self.right.put(key, value)
+                return self.right.put(key, value)
             else:
                 self.right = BSTNode(key, value)
         self._updatelength()
+
+    def _updatelength(self):
+        len_left = len(self.left) if self.left else 0
+        len_right = len(self.right) if self.right else 0
+        self._length = 1 + len_left + len_right 
 
     def floor(self, key):
         if key == self.key:
             return self
         elif key < self.left:
-            if self.left is not None:
+            if self.left:
                 return self.left.floor(key)
             else:
                 return None
         elif key > self.right:
-            if self.right is not None:
+            if self.right:
                 floor = self.right.floor(key)
-                return floor if floor is not None else 
+                return floor if floor is not None else self
             else:
                 return self
+        else:
+            return self 
 
-    def _updatelength(self):
-        len_left = len(self.left) if self.left else 0
-        len_right = len(self.right) if self.right else 0
-        self._length = 1 + len_left + len_right
-
-    def __iter__(self):
-        if self.left is not None:
-            yield from self.left
-        yield self
-        if self.right is not None:
-            yield from self.right 
-
+        
     def _swapwith(self, other):
         self.key, other.key = other.key, self.key
         self.value, other.value = other.value, self.value
@@ -112,18 +120,19 @@ class BSTNode:
     def maxnode(self):
         return self.right.maxnode() if self.right else self
 
-    def remove(self, key):
-        if key == self.key:
+
+    def remove(self key):
+        if self.key == key:
             if self.left is None: return self.right
             if self.right is None: return self.left
             self._swapwith(self.left.maxnode())
-            self.left = self.remove(key)
-        elif:
-            key < self.left and self.left:
-                self.left = self.left.remove(key)
-        elif key > self.right and self.right:
-            self.right = self.right.remove(key)
+        elif key < self.key and self.left:
+            return self.left.remove(self)
+        elif key > self.key and self.right:
+            return self.right.remove(self)
         else:
             raise KeyError
         self._updatelength()
         return self
+
+        
