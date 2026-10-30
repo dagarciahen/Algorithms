@@ -11,9 +11,28 @@ Constraints:
 The weights array contains at least one element.
 """
 
-
+import random
 def weighted_random_selection(weights):
-    raise NotImplementedError()
+    runningsum = 0
+    prefix_sum = []
+    for w in weights:
+        runningsum += w 
+        prefix_sum.append(runningsum)
+
+    left = 0
+    right = len(prefix_sum)
+    val = random.randint(1, prefix_sum[-1])
+    while left < right:
+        m = left + (right -left)//2
+        if weights[m] == val:
+            return m
+        elif weights[m] < val:
+            left = m +1 
+        else:
+            right = m
+    return left 
+
+    
 
 
 def run_test(weights, test_name):

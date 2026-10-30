@@ -12,9 +12,21 @@ Output: [6, 4, 6, -1, -1]
 
 
 def next_largest_number_to_the_right(nums):
-    raise NotImplementedError()
+    res = [0]*len(nums)
+    stack = []
+    for i in range(len(nums)-1, -1, -1):
+        while stack and nums[i] >= stack[-1]:
+            stack.pop()
+            res[i] = -1
+        if not stack:
+            res[i] = -1
+        elif stack and nums[i] < stack[-1]:
+            res[i] = stack[-1]
+        stack.append(nums[i])
+    return res
 
 
+            
 def run_test(nums, expected, test_name):
     print(test_name)
     print("nums     = " + str(nums))

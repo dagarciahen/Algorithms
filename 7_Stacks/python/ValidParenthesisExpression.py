@@ -20,7 +20,21 @@ Output: False
 
 
 def is_valid_parenthesis_expression(s):
-    raise NotImplementedError()
+    stack = []
+    parenthesis_map = {'{':'}', '(':')', '[':']'}
+
+    for c in s:
+        if c in parenthesis_map:
+            stack.append(c)
+        elif stack and parenthesis_map[stack[-1]] == c:
+            stack.pop()
+        else:
+            return False 
+    return not stack
+        
+        
+
+
 
 
 def run_test(s, expected, test_name):

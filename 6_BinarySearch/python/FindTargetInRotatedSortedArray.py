@@ -14,7 +14,26 @@ Output: 2
 
 
 def search_rotated_sorted_array(nums, target):
-    raise NotImplementedError()
+    left = 0
+    right = len(nums)
+
+    while left < right:
+        m = left + (right - left)//2
+        if nums[m] == target: return m
+        elif nums[left] < nums[m]:
+            if nums[left] <= target < nums[m]:
+                right = m
+            else:
+                left = m + 1
+        else:
+            if nums[m] < target <= nums[right-1]:
+                left = m + 1
+            else:
+                right = m
+    return -1
+
+
+
 
 
 def run_test(nums, target, expected, test_name):

@@ -13,7 +13,24 @@ Output: True
 
 
 def matrix_search(matrix, target):
-    raise NotImplementedError()
+    m = len(matrix)
+    n = len(matrix[0])
+
+    left = 0
+    right = m*n
+    while left < right:
+        idx  = left + (right-left)//2
+        row = idx //n
+        col = idx %n
+        val = matrix[row][col]
+        if val == target: return True
+        elif val < target:
+            left = idx +1 
+        else:
+            right = idx 
+    return False
+
+
 
 
 def print_matrix(matrix):

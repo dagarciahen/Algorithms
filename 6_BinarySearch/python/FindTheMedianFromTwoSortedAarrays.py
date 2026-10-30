@@ -18,7 +18,7 @@ At least one of the input arrays will contain an element.
 
 
 def find_median_sorted_arrays(nums1, nums2):
-    raise NotImplementedError()
+
 
 
 def run_test(nums1, nums2, expected, test_name):
@@ -43,3 +43,35 @@ if __name__ == "__main__":
     run_test([1, 2], [3, 4], 2.5, "Test 3")
     run_test([], [7], 7.0, "Test 4")
     run_test([2], [], 2.0, "Test 5")
+
+
+
+"""
+def find_median_sorted_arrays(nums1, nums2):
+    if len(nums1) > len(nums2):
+        nums2, nums1 = nums1, nums2
+    m = len(nums1)
+    n = len(nums2)
+    half_total_len = (m+n)//2
+    left, right = 0, m-1
+    while True:
+        L1_index = left + (right-left)//2
+        #sizeleftpartition = L1_index +1  
+        #half_total_len = L1_index +1 + L2_index+1
+        L2_index = half_total_len - L1_index - 2
+        
+        L1 = float('-inf') if L1_index < 0 else nums1[L1_index]
+        R1 = float('inf') if L1_index >= m -1 else nums1[L1_index+1]
+        L2 = float('-inf') if L2_index < 0 else nums2[L2_index]
+        R2 = float('inf') if L2_index >= n-1 else nums2[L2_index+1]
+
+        if L1 > R2:
+            right = L1_index -1
+        elif L2 > R1:
+            left = L1_index +1 
+        else:
+            if (m+n)%2 == 0:
+                return (max(L1,L2)+min(R1,R2))/2.0
+            else:
+                return min(R1,R2)
+"""
