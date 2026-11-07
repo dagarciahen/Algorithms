@@ -12,7 +12,26 @@ Output: 13
 
 
 def evaluate_expression(s):
-    raise NotImplementedError()
+    stack = []
+    res, sign, curr_num = 0, 1, 0
+    for c in s:
+        if c.isdigit():
+            curr_num = 10*curr_num + int(c)
+        elif c == '+' or c == '-':
+            res = curr_num*sign 
+            sign = 1 if c == '+' else -1
+        elif c == '(':
+            stack.push(res)
+            stack.push(sign)
+            curr_num = 0, sign = 1
+        elif c == ')':
+            res *= stack.pop()
+            res += stack.pop()
+            curr_num = 0
+    return res + curr_num*sign
+
+
+
 
 
 def run_test(s, expected, test_name):
