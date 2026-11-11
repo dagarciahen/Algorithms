@@ -17,7 +17,19 @@ Output: "a"
 
 
 def remove_adjacent_duplicates(s):
-    raise NotImplementedError()
+    stack = []
+    res = ""
+    for i in range(len(s)-1, -1, -1):
+        c = s[i]
+        if stack and stack[-1] == c:
+            stack.pop()
+        else:
+            stack.append(c)
+    while stack:
+        res += stack.pop()
+    return res
+        
+
 
 
 def run_test(s, expected, test_name):
@@ -39,5 +51,5 @@ if __name__ == "__main__":
     run_test("aacabba", "c", "Test 1")
     run_test("aaa", "a", "Test 2")
     run_test("abba", "", "Test 3")
-    run_test("azxxzy", "ay", "Test 4")
+    run_test("abcde", "abcde", "Test 4")
     run_test("abc", "abc", "Test 5")

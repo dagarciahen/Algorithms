@@ -27,7 +27,6 @@ def count_substring_anagrams(s, t):
     count = 0
     while right < len(s):
         window_freq[ord(s[right]) - ord('a')] +=1
-        
         if right-left+1 == len(t):
             if expected_freq == window_freq:
                 count +=1

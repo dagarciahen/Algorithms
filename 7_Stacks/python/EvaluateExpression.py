@@ -13,23 +13,27 @@ Output: 13
 
 def evaluate_expression(s):
     stack = []
-    res, sign, curr_num = 0, 1, 0
+    sign = 1
+    res = 0
+    finalres = 0
+    curr_num = 0
     for c in s:
         if c.isdigit():
             curr_num = 10*curr_num + int(c)
-        elif c == '+' or c == '-':
-            res = curr_num*sign 
-            sign = 1 if c == '+' else -1
-        elif c == '(':
-            stack.push(res)
-            stack.push(sign)
-            curr_num = 0, sign = 1
+            res += curr_num*sign
+        elif c == '-' or c == '+':
+            sign = -1 if c == '-' else 1
+            curr_num = 0
+        if c == '(':
+            stack.append(res)
+            stack.append(sign)
+            res = 0
+            sign = 1
         elif c == ')':
+            res += sign*curr_num 
             res *= stack.pop()
             res += stack.pop()
-            curr_num = 0
     return res + curr_num*sign
-
 
 
 
